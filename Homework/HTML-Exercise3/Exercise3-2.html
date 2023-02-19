@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--DHugo-->
+<!--HW3-2-->
+
+<head>
+  <meta charset="UTF-8">
+  <title>css</title>
+  <style type="text/css">
+    h1 {
+      font-size: xx-large;
+      text-align: center;
+      color: royalblue;
+    }
+
+    body {
+      font-size: 0;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav {
+      font-size: medium;
+      box-sizing: border-box;
+      width: calc(100%/6);
+      display: inline-flex;
+      flex-direction: column;
+      font-family: Perpetua;
+      font-weight: bold;
+      color: white;
+      border: 2px solid RoyalBlue;
+      text-align: center;
+      background-color: RoyalBlue;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul {
+      position: absolute;
+      display: none;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav:hover ul {
+      box-sizing: border-box;
+      display: block;
+      text-align: center;
+      width: calc(100%/6);
+    }
+
+    nav ul li {
+      border-top: 2px solid RoyalBlue;
+      background-color: white;
+      color: black;
+    }
+
+    nav ul li:hover {
+      background-color: PowderBlue;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    @media only screen and (max-width: 600px) {
+      div {
+        width: 100%;
+      }
+
+      nav {
+        display: block;
+        width: 100%;
+      }
+
+      nav ul {
+        width: 100%;
+        position: relative;
+      }
+
+      nav:hover ul {
+        display: block;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Web Intelligence</h1>
+  <nav>JavaScript
+    <ul>
+      <li><a href="https://www.w3schools.com/js/default.asp" target="_blank">W3Schools</a></li>
+      <li><a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript" target="_blank">MDN</a></li>
+      <li><a href="https://www.json.org/json-en.html" target="_blank">JSON</a></li>
+    </ul>
+  </nav>
+  <nav>jQuery
+    <ul>
+      <li><a href="https://jquery.com/" target="_blank">jQuery.org</a></li>
+      <li><a href="https://jqueryui.com/" target="_blank">jQuery UI</a></li>
+      <li><a href="https://www.w3schools.com/jquERy/default.asp" target="_blank">jQuery Tutorial</a></li>
+    </ul>
+  </nav>
+  <nav>node.js
+    <ul>
+      <li><a href="https://www.w3schools.com/nodejs/" target="_blank">Node.js Tutorial</a></li>
+    </ul>
+  </nav>
+  <nav>PHP
+    <ul>
+    </ul>
+  </nav>
+  <nav>ASP.Net
+    <ul>
+    </ul>
+  </nav>
+  <nav>Servlet/JSP
+    <ul>
+    </ul>
+  </nav>
+  <iframe src="01057107-Exercise3-1.html" title="W3Schools Free Online Web Tutorials" width="100%"
+    height="550px"></iframe>
+</body>
+
+</html>

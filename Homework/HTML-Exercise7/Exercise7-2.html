@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!--DHugo-->
+<!--HW7-2-->
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Doraemon</title>
+  <style type="text/css">
+    @import url(https://fonts.googleapis.com/earlyaccess/notosanstc.css);
+
+    img {
+      width: 300px;
+      height: 300px;
+    }
+
+    div,
+    input {
+      font-family: Noto Sans TC, Perpetua, serif;
+      width: 300px;
+    }
+
+    div {
+      color: darkblue;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    input {
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+  <script>
+    // TODO
+    const gadgetString = "任意門 時光機 竹蜻蜓 時光布 記憶麵包 縮小燈 翻譯蒟蒻 如果電話亭 穿透環 更衣照相機";
+    var item_list = gadgetString.split(" ");
+    var pictures = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"];
+    function draw() {
+      var item = document.getElementById("gadget");
+      item.setAttribute("src", "blank.png");
+      var msg = document.getElementById("messages");
+      msg.innerHTML = "";
+      DoraemonSound.play();
+    }
+    function show() {
+      var item = document.getElementById("gadget");
+      var idx = Math.floor(Math.random() * pictures.length);
+      item.setAttribute("src", pictures[idx] + ".png");
+      item.setAttribute("alt", "image " + pictures[idx]);
+      var msg = document.getElementById("messages");
+      msg.innerHTML = "您抽到" + item_list[idx] + "!";
+    }
+    function start() {
+      var Button = document.getElementById("play");
+      Button.addEventListener("click", draw, false);
+      var Sound = document.getElementById("DoraemonSound");
+      Sound.addEventListener("ended", show, false);//等待聲音結束 就跑show
+    } // end function start
+    window.addEventListener("load", start, false);
+  </script>
+</head>
+
+<body>
+  <audio id="DoraemonSound" preload="auto">
+    <source src="doraemon.mp3" type="audio/mpeg">
+    Browser does not support audio tag
+  </audio>
+  <img id="gadget" src="00.png" alt="gadget">
+  <form action="#">
+    <input id="play" type="button" value="抽道具">
+  </form>
+  <div id="messages">請按下Button抽出道具</div>
+</body>
+
+</html>

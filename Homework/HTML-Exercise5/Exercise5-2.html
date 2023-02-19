@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--DHugo-->
+<!--HW5-2-->
+
+<head>
+    <meta charset="UTF-8">
+    <title>01057107</title>
+
+    <style type="text/css">
+        p {
+            padding-bottom: 10px;
+            border-bottom-style: solid;
+        }
+
+        img {
+            height: 50px;
+            width: 50px;
+        }
+    </style>
+    <script>
+        function start() {
+            const button = document.getElementById("bt1");
+            button.addEventListener("click", display, false);
+            const button2 = document.getElementById("bt2");
+            button2.addEventListener("click", display2, false);
+            const button3 = document.getElementById("bt3");
+            button3.addEventListener("click", display3, false);
+        }
+        function display() {
+            let tex = document.getElementById("num");
+            let content = tex.value;
+            var len = parseInt(content);
+            if (len > 10 || len < 0) {
+                window.alert("輸入有誤！自動設為 5。");
+                len = 5;
+            }
+            var message = '';//組合出想在div區塊中呈現的html片段
+            for (let i = 1; i <= len; i++) {
+                for (let j = 1; j <= len; j++) {
+                    if (i + j <= len)
+                        message += '<img src="blank.png">';
+                    else
+                        message += '<img src="baseball.jpg">';
+                }
+                message += "<br>";
+            }
+            //找到id為"display"的物件
+            const divObject = document.getElementById("display");
+            //將div區塊的內容改為message
+            divObject.innerHTML = message;
+        }
+        function display2() {
+            let tex = document.getElementById("num");
+            let content = tex.value;
+            var len = parseInt(content);
+            if (len > 10 || len < 0) {
+                window.alert("輸入有誤！自動設為 5。");
+                len = 5;
+            }
+            var message = '';//組合出想在div區塊中呈現的html片段
+            for (let i = 1; i <= len; i++) {
+                for (let j = 1; j <= len; j++) {
+                    message += '<img src="baseball.jpg">';
+                }
+                message += "<br>";
+            }
+            //找到id為"display"的物件
+            const divObject = document.getElementById("display");
+            //將div區塊的內容改為message
+            divObject.innerHTML = message;
+        }
+        function display3() {
+            let tex = document.getElementById("num");
+            let content = tex.value;
+            var len = parseInt(content);
+            if (len > 10 || len < 0) {
+                window.alert("輸入有誤！自動設為 5。");
+                len = 5;
+            }
+            var message = '';//組合出想在div區塊中呈現的html片段
+            for (let i = 1; i <= len; i++) {
+                for (let j = 1; j <= len; j++) {
+                    let tem = Math.floor(Math.random() * 3);
+                    if (tem == 0)
+                        message += '<img src="baseball-x.jpg">';
+                    else
+                        message += '<img src="baseball.jpg">';
+                }
+                message += "<br>";
+            }
+            //找到id為"display"的物件
+            const divObject = document.getElementById("display");
+            //將div區塊的內容改為message
+            divObject.innerHTML = message;
+        }
+        window.addEventListener("load", start, false);
+    </script>
+</head>
+
+<body>
+    <p>
+        Side Length(<=10): <input id="num" type="text" value="5">
+            <input id="bt1" type="button" value="Draw Baseball Triangle">
+            <input id="bt2" type="button" value="Draw Baseball Square">
+            <input id="bt3" type="button" value="Draw Special Square">
+    </p>
+    <div id="display"></div>
+</body>
+
+</html>

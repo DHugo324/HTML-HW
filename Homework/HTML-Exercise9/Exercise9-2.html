@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<!--DHugo-->
+<!--HW9-2-->
+
+<head>
+  <meta charset="utf-8">
+  <title>Show logo page</title>
+  <style type="text/css">
+  </style>
+  <script type="text/javascript">
+    var pictures = ["microsoft", "google", "yahoo", "facebook", "ibm", "apple"];
+    function start() {
+      window.setInterval("refresh()", 2000);
+    } // end function start
+    function refresh() {
+      var msg = "";
+      for (let i = 0; i < pictures.length; i++) {
+        var x = Math.floor(Math.random() * 300) + 101;
+        var y = Math.floor(Math.random() * 300) + 101;
+        var z = Math.floor(Math.random() * 300) + 1;
+        msg += '<img src="' + pictures[i] + '.png" style="position:absolute; top: ' + x + 'px; left: ' + y + 'px; z-index:' + z + ';"">'
+      }
+      //console.log(msg);
+      document.body.innerHTML = msg;
+    }
+
+    window.addEventListener("load", start, false);
+  </script>
+</head>
+
+<body>
+</body>
+
+</html>

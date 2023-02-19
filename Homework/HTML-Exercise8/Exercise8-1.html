@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<!--DHugo-->
+<!--HW8-1-->
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Local Storage</title>
+    <style type="text/CSS">
+        table {
+            width: 90%;
+            border-collapse: collapse;
+            background-color: lightblue;
+            font-family: Perpetua;
+        }
+
+        table, td, th {
+            border: 1px solid black;
+            padding: 4px;
+        }
+
+        th {
+            text-align: center;
+            color: white;
+            background-color: darkblue;
+        }
+
+        tr.oddrow {
+            background-color: white;
+        }
+
+        td {
+            text-align: center;
+        }
+    </style>
+    <script type="text/javascript">
+        var tags; // array of tags for queries
+        // loads previously saved searches and displays them in the page
+        function loadSearches() {
+            var length = localStorage.length; // number of key-value pairs
+            tags = []; // create empty array
+            var x = 0;
+            // load all keys
+            for (var i = 0; i < length; ++i) {
+                tem = localStorage.key(i);
+                if (String(tem).startsWith("ntou-")) {
+                    tags[x] = tem;
+                    x += 1;
+                }
+            } // end for
+
+            tags.sort(); // sort the keys
+
+            var msg = "<table>"; // used to store search link markup
+            var url = "";
+            msg += "<thead><tr><th>Title</th><th>Author</th><th>Year</th><th>URL</th></tr><thead>";
+            msg += "<tbody>";
+            var tem = 0;
+            // build list of links
+            for (var tag in tags) {
+                const myjson = localStorage.getItem(tags[tag]);
+                const obj = JSON.parse(myjson);
+                if (tem % 2 == 1)
+                    msg += "<tr><td>" + obj.title + "</td><td>" + obj.author + "</td><td>" + obj.year + "</td><td><a href=\""
+                        + obj.bookurl + "\" target=\"_blank\">" + obj.bookurl + "</td></tr>";
+                else
+                    msg += "<tr class=\"oddrow\"><td>" + obj.title + "</td><td>" + obj.author + "</td><td>" + obj.year +
+                        "</td><td><a href=\"" + obj.bookurl + "\" target=\"_blank\">" + obj.bookurl + "</td></tr>";
+                tem += 1;
+            } // end for
+            msg += "</tbody>";
+            msg += "</table>";
+            document.getElementById("display").innerHTML = msg;
+        } // end function loadSearches
+
+        // deletes all key-value pairs from localStorage
+        function removeItem() {
+            var length = localStorage.length; // number of key-value pairs
+            tags = []; // create empty array
+            var x = 0;
+            // load all keys
+            for (var i = 0; i < length; ++i) {
+                var tem = localStorage.key(i);
+                if (String(tem).startsWith("ntou-")) {
+                    tags[x] = tem;
+                    x += 1;
+                }
+            } // end for
+            tags.sort(); // sort the keys
+            for (var tag in tags) {
+                localStorage.removeItem(tags[tag]);
+            }
+            window.alert("All items were removed!");
+            loadSearches(); // reload searches
+        } // end function removeItem
+        function book(title, author, year, bookurl) {
+            this.title = title;
+            this.author = author;
+            this.year = year;
+            this.bookurl = bookurl;
+        }
+        // saves a newly tagged search into localStorage
+        function Addnew() {
+            var title = document.getElementById("title");
+            var author = document.getElementById("author");
+            var year = document.getElementById("year");
+            var bookurl = document.getElementById("bookurl");
+            var date = new Date().getTime();
+            var b = new book(title.value, author.value, year.value, bookurl.value);
+            var myJSON = JSON.stringify(b);
+            localStorage.setItem("ntou-" + String(date), myJSON);
+            loadSearches(); // reload searches
+        } // end function Addnew
+
+        // register event handlers then load searches
+        function start() {
+            var AddButton = document.getElementById("addButton");
+            AddButton.addEventListener("click", Addnew, false);
+            var clearButton = document.getElementById("removeAllButton");
+            clearButton.addEventListener("click", removeItem, false);
+            loadSearches(); // load the previously saved searches
+        } // end function start
+
+        window.addEventListener("load", start, false);
+    </script>
+</head>
+
+<body>
+    <form action="#">
+        <p>
+            <label>Book Title:</label><input id="title" ,type="text">
+            <label>Author(s):</label><input id="author" ,type="text">
+            <label>Year:</label><input id="year" ,type="number">
+            <label>Book URL:</label><input id="bookurl" ,type="url">
+        </p>
+        <p>
+            <input type="button" value="Add New Item" id="addButton">
+            <input type="button" value="Remove All Items" id="removeAllButton">
+        </p>
+    </form>
+    <hr>
+    <div id="display">
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--DHugo-->
+<!--HW4-1-->
+
+<head>
+    <meta charset="UTF-8">
+    <title>js</title>
+
+    <style type="text/css">
+        h1 {
+            font-family: Helvetica;
+            color: black;
+        }
+
+        .n {
+            color: firebrick;
+            font-weight: bold;
+        }
+
+        .y {
+            color: navy;
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        var name;
+        var birth;
+        var now = new Date();
+        var year = now.getFullYear();
+        name = window.prompt("Please input your name:");
+        birth = window.prompt("Please input your birth year:")
+        var age = year - birth;
+        document.writeln("<h1>Hello, " + "<span class=n>" + name + "</span>" + "!</h1>")
+        console.log("Hello, " + name + "!")
+        if (age >= 1) {
+            if (age > 1) {
+                document.writeln("<h1>You are " + "<span class=y>" + age + "</span>" + " years old!</h1>");
+                console.log("You are " + age + " years old!")
+            }
+            else {
+                document.writeln("<h1>You are " + "<span class=y>one</span>" + " year old!</h1>");
+                console.log("You are one year old!")
+            }
+        }
+        else {
+            document.writeln("<h1>Your age is a mystery!</h1>");
+            console.log("Your input is incorrect!")
+        }
+    </script>
+</head>
+
+<body></body>
+
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<!--DHugo-->
+<!--HW10-->
+
+<head>
+    <title>15-Puzzle</title>
+    <meta charset="utf-8">
+    <style type="text/css">
+        table {
+            border-collapse: collapse;
+        }
+
+        caption,
+        td {
+            font-weight: bold;
+            font-family: helvetica, arial, sans-serif;
+        }
+
+        caption {
+            font-size: 3em;
+            color: gray;
+        }
+
+        td {
+            font-size: 4em;
+            color: blue;
+            border: 2px solid gray;
+            padding: 5px;
+        }
+
+        div {
+            font-size: 2em;
+            color: red;
+        }
+
+        button {
+            width: 80px;
+            height: 50px;
+        }
+    </style>
+    <script type="text/javascript">
+        var init = [];
+        var clap = document.createElement("audio");
+        function setup() {
+            save();
+            for (var i = 0; i < 4; i++) {
+                for (var j = 0; j < 4; j++) {
+                    var tem = document.getElementById("cell" + String(i) + String(j));
+                    tem.addEventListener("mouseover", mouseOn, false);
+                    tem.addEventListener("mouseout", mouseOff, false);
+                }
+            }
+            clap.src = "applause.mp3";
+            clap.addEventListener("ended", win, false);
+        }
+        function findnext(x, y) {
+            //console.log(document.getElementById("cell" + String(x) + String(y)).innerHTML);
+            x = parseInt(x);
+            y = parseInt(y);
+            if (document.getElementById("cell" + String(x) + String(y)).innerHTML == ' ') return 0;
+            if (y + 1 < 4) if (document.getElementById("cell" + String(x) + String(y + 1)).innerHTML == ' ') return 1;
+            if (y - 1 >= 0) if (document.getElementById("cell" + String(x) + String(y - 1)).innerHTML == ' ') return 2;
+            if (x + 1 < 4) if (document.getElementById("cell" + String(x + 1) + String(y)).innerHTML == ' ') return 3;
+            if (x - 1 >= 0) if (document.getElementById("cell" + String(x - 1) + String(y)).innerHTML == ' ') return 4;
+            return -1;
+        }
+        function mouseOn(e) {
+            if (e.target.getAttribute("id").startsWith("cell")) {
+                var id = e.target.getAttribute("id");
+                var status = findnext(id[4], id[5]);
+                //console.log(status);
+                var msg = document.getElementById("msg");
+                if (status == 0) msg.innerHTML = "This is a blank cell!";
+                else if (status == 1) msg.innerHTML = "This tile can move right!";
+                else if (status == 2) msg.innerHTML = "This tile can move left!";
+                else if (status == 3) msg.innerHTML = "This tile can move down!";
+                else if (status == 4) msg.innerHTML = "This tile can move up!";
+                else if (status == -1) msg.innerHTML = "Illegal move!";
+            }
+        }
+        function mouseOff(e) {
+            if (e.target.getAttribute("id").startsWith("cell")) {
+                var msg = document.getElementById("msg");
+                msg.innerHTML = "";
+            }
+        }
+        function doClick(x, y) {
+            var status = findnext(x, y);
+            if (status == 1) {
+                msg.innerHTML = "This tile can move right!";
+                document.getElementById("cell" + String(x) + String(y + 1)).innerHTML = document.getElementById("cell" + String(x) + String(y)).innerHTML;
+                document.getElementById("cell" + String(x) + String(y)).innerHTML = ' ';
+            }
+            else if (status == 2) {
+                msg.innerHTML = "This tile can move left!";
+                document.getElementById("cell" + String(x) + String(y - 1)).innerHTML = document.getElementById("cell" + String(x) + String(y)).innerHTML;
+                document.getElementById("cell" + String(x) + String(y)).innerHTML = ' ';
+            }
+            else if (status == 3) {
+                msg.innerHTML = "This tile can move down!";
+                document.getElementById("cell" + String(x + 1) + String(y)).innerHTML = document.getElementById("cell" + String(x) + String(y)).innerHTML;
+                document.getElementById("cell" + String(x) + String(y)).innerHTML = ' ';
+            }
+            else if (status == 4) {
+                msg.innerHTML = "This tile can move up!";
+                document.getElementById("cell" + String(x - 1) + String(y)).innerHTML = document.getElementById("cell" + String(x) + String(y)).innerHTML;
+                document.getElementById("cell" + String(x) + String(y)).innerHTML = ' ';
+            }
+            if (status != -1 && status != 0) checkWin();
+        }
+        function checkWin() {
+            for (var i = 0; i <= 3; i++) {
+                for (var j = 0; j <= 3; j++) {
+                    if (i == 3 && j == 3) continue;
+                    if (document.getElementById("cell" + String(i) + String(j)).innerHTML != (j + 1) + i * 4) return;
+                }
+            }
+            window.alert("Congratulations! You win!");
+            clap.play();
+        }
+        function win() {
+            var msg = window.prompt("Play Again?", "Yes");
+            if (msg == "Yes") {
+                //console.log(msg);
+                restart();//改importData
+            }
+        }
+        function save() {
+            while (init.length) init.pop();
+            for (var i = 0; i <= 3; i++) {
+                for (var j = 0; j <= 3; j++) {
+                    var msg = document.getElementById("cell" + String(i) + String(j)).innerHTML;
+                    init.push(msg);
+                }
+            }
+            //console.log(init);
+        }
+        function restart() {
+            for (var i = 0; i <= 3; i++) {
+                for (var j = 0; j <= 3; j++) {
+                    document.getElementById("cell" + String(i) + String(j)).innerHTML = init[(j + 1) + i * 4 - 1];
+                }
+            }
+        }
+        function importData() {
+            let num = Math.floor(Math.random() * 3) + 1;
+            let waiting = document.createElement("img");
+            waiting.id = "loading_img";
+            waiting.src = "loading.gif";
+            waiting.style.position = "absolute";
+            waiting.style.top = "60px";
+            waiting.style.left = "0px";
+            waiting.style.zIndex = "10";
+            waiting.style.width = "360px";
+            waiting.style.height = "360px";
+            waiting.style.display = "block";
+            waiting.style.maxHeight = "100%";
+            waiting.style.maxHeight = "100%";
+            // console.log(waiting);
+            document.body.appendChild(waiting);
+            fetch("https://soselab2020.github.io/puzzle/puzzle-" + num + ".json").then(response => response.json()).then(importdata => {
+                //b.removeChild(waiting);
+                //console.log(importdata.puzzleData[0]);
+                for (let i = 0; i < 4; i++) {
+                    for (let j = 0; j < 4; j++) {
+                        if (importdata.puzzleData[0][i][j] == "") {
+                            document.getElementById("cell" + String(i) + String(j)).innerHTML = " ";
+                        }
+                        else {
+                            document.getElementById("cell" + String(i) + String(j)).innerHTML = importdata.puzzleData[0][i][j];
+                        }
+                    }
+                }
+                save();
+                document.body.removeChild(waiting);
+            });
+            restart();
+        }
+        function gotoLastStep() {
+            var ran = Math.floor(Math.random() * 2);
+            for (var i = 0; i <= 3; i++) {
+                for (var j = 0; j <= 3; j++) {
+                    if (i == 3 && j == 3) continue;
+                    if ((j + 1) + i * 4 < 10) document.getElementById("cell" + String(i) + String(j)).innerHTML = '0' + String((j + 1) + i * 4);
+                    else
+                        document.getElementById("cell" + String(i) + String(j)).innerHTML = (j + 1) + i * 4;
+                }
+            }
+            if (ran == 1) {
+                document.getElementById("cell32").innerHTML = " ";
+                document.getElementById("cell33").innerHTML = "15";
+            }
+            else {
+                document.getElementById("cell23").innerHTML = " ";
+                document.getElementById("cell33").innerHTML = "12";
+            }
+        }
+        var audio = document.createElement("audio");
+        audio.src = "offlimits.mp3";
+        var play = 0;
+        audio.addEventListener("ended", function () { if (play == 1) { play = 0; switchBGM() } });
+        function switchBGM() {
+            if (play) {
+                play = 0;
+                audio.pause();
+            }
+            else {
+                play = 1;
+                audio.play();
+            }
+        }
+    </script>
+</head>
+
+<body onload="setup()">
+    <table id="board">
+        <caption>15-Puzzle</caption>
+        <tbody>
+            <tr>
+                <td onclick="doClick( 0, 0 )" id="cell00"> </td>
+                <td onclick="doClick( 0, 1 )" id="cell01">15</td>
+                <td onclick="doClick( 0, 2 )" id="cell02">14</td>
+                <td onclick="doClick( 0, 3 )" id="cell03">13</td>
+            </tr>
+            <tr>
+                <td onclick="doClick( 1, 0 )" id="cell10">12</td>
+                <td onclick="doClick( 1, 1 )" id="cell11">11</td>
+                <td onclick="doClick( 1, 2 )" id="cell12">10</td>
+                <td onclick="doClick( 1, 3 )" id="cell13">09</td>
+            </tr>
+            <tr>
+                <td onclick="doClick( 2, 0 )" id="cell20">08</td>
+                <td onclick="doClick( 2, 1 )" id="cell21">07</td>
+                <td onclick="doClick( 2, 2 )" id="cell22">06</td>
+                <td onclick="doClick( 2, 3 )" id="cell23">05</td>
+            </tr>
+            <tr>
+                <td onclick="doClick( 3, 0 )" id="cell30">04</td>
+                <td onclick="doClick( 3, 1 )" id="cell31">03</td>
+                <td onclick="doClick( 3, 2 )" id="cell32">02</td>
+                <td onclick="doClick( 3, 3 )" id="cell33">01</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>
+        <button onclick="restart()" id="restartBtn">Restart Game</button>
+        <button onclick="importData()" id="importBtn">Import Data</button>
+        <button onclick="gotoLastStep()" id="laststepBtn">Go to the Last Step</button>
+        <button onclick="switchBGM()" id="bgmBtn">Switch BGM</button>
+    </p>
+    <div id="msg"></div>
+</body>
+
+</html>

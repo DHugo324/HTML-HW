@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<!--DHugo-->
+<!--HW5-1-->
+
+<head>
+    <meta charset="utf-8">
+    <title>Basic DOM</title>
+    <style type="text/CSS">
+        h1 {
+			font-size: 50px;
+            font-family: cwTeXYen;		
+		}
+
+		div {            
+			font-family: Consolas;
+            font-size: 80px;			
+			margin: 5px;	
+            padding: 5px;
+            float: left;	
+		}
+
+        div.number {
+            color: dodgerblue;
+			border: 1px solid gray;			
+            min-width: 100px;
+            text-align: center;
+		}
+
+	</style>
+</head>
+
+<body>
+    <h1>四則運算結果:</h1>
+    <div class="number" id="num1">Number1</div>
+    <div id="op">?</div>
+    <div class="number" id="num2">Number2</div>
+    <div>=</div>
+    <div class="number" id="result">Result</div>
+    <script>
+        var op;
+        op = window.prompt("請輸入算數運算子：1 代表加(+)、2 代表減(-)、3 代表乘(*)、4 代表除(/)");
+        if (!(1 <= op && op <= 4)) {
+            op = 1;
+            window.alert("輸入有誤！選項自動設為 1。");
+        }
+        var a, b;
+        a = window.prompt("請輸入第一個數字:");
+        if (isNaN(a)) {
+            a = 1;
+            window.alert("輸入有誤！數值自動設定為 1。");
+        }
+        document.getElementById("num1").innerHTML = a;
+        b = window.prompt("請輸入第二個數字:");
+        if (isNaN(b)) {
+            b = 1;
+            window.alert("輸入有誤！數值自動設定為 1。");
+        }
+        document.getElementById("num2").innerHTML = b;
+        a = parseInt(a); b = parseInt(b);
+        if (op == 1) {
+            document.getElementById("op").innerHTML = '+';
+            document.getElementById("result").innerHTML = a + b;
+        }
+        else if (op == 2) {
+            document.getElementById("op").innerHTML = '-';
+            document.getElementById("result").innerHTML = a - b;
+        }
+        else if (op == 3) {
+            document.getElementById("op").innerHTML = '*';
+            document.getElementById("result").innerHTML = a * b;
+        }
+        else if (op == 4) {
+            document.getElementById("op").innerHTML = '/';
+            document.getElementById("result").innerHTML = (a / b).toFixed(2);
+        }
+    </script>
+</body>
+
+</html>

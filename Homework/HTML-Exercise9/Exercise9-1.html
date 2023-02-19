@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<!--DHugo-->
+<!--HW9-1-->
+
+<head>
+    <meta charset="utf-8">
+    <pic>Pin Pictures</pic>
+    <style type="text/css">
+        div.nav {
+            border: 1px solid skyBlue;
+            margin-left: 3px;
+            padding: 3px;
+            float: left;
+        }
+
+        input,
+        p,
+        li {
+            font-family: Helvetica,
+                "Microsoft YaHei", "LiHei Pro", TW-Kai;
+        }
+
+        li {
+            font-size: 12px;
+        }
+
+        img.picture {
+            position: absolute;
+        }
+    </style>
+    <script type="text/javascript">
+        var dep = 2;
+        var bag = [];
+        var tags;
+        function reloading() {
+            var length = localStorage.length; // number of key-value pairs
+            tags = []; // create empty array
+            var x = 0;
+            // load all keys
+            for (var i = 0; i < length; ++i) {
+                var tem = localStorage.key(i);
+                if (String(tem).startsWith("imgs")) {
+                    tags[x] = tem;
+                    x += 1;
+                }
+            } // end for
+
+            tags.sort(); // sort the keys
+
+            // build list of links
+            for (var tag in tags) {
+                var image = document.createElement("img");
+                var pin = document.createElement("img");
+                const myjson = localStorage.getItem(tags[tag]);
+                const obj = JSON.parse(myjson);
+                console.log(obj);
+                image.setAttribute("id", "img");
+                image.setAttribute("class", "picture");
+                //image.setAttribute("draggable", "true");
+                image.setAttribute("src", obj.src);
+                image.style.left = obj.left + "px";
+                image.style.top = obj.top + "px";
+                image.style.zIndex = obj.z;
+                pin.setAttribute("id", "img");
+                pin.setAttribute("class", "picture");
+                //pin.setAttribute("draggable", "true");
+                pin.setAttribute("src", obj.pin);
+                pin.setAttribute("width", "30px");
+                pin.style.left = String(parseInt(obj.left) + 85) + "px";
+                pin.style.top = String(parseInt(obj.top) - 10) + "px";
+                pin.style.zIndex = obj.z + 1;
+                bag.push(image);
+                bag.push(pin);
+                document.body.appendChild(image);
+                document.body.appendChild(pin);
+            }
+        }
+        function img(src, top, left, z, pin) {
+            this.src = src;
+            this.top = top;
+            this.left = left;
+            this.z = z;
+            this.pin = pin;
+        }
+        function Addnew() {
+            var pictures = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"];
+            var pins = ["red", "blue", "yellow"];
+            var idx = document.getElementById("pic");
+            var x = document.getElementById("x");
+            var y = document.getElementById("y");
+            var msg;
+            var image = document.createElement("img");
+            var pin = document.createElement("img");
+            image.setAttribute("id", "img");
+            image.setAttribute("class", "picture");
+            //image.setAttribute("draggable", "true");
+            image.setAttribute("src", pictures[idx.value - 1] + ".png");
+            image.style.left = x.value + "px";
+            image.style.top = y.value + "px";
+            image.style.zIndex = dep;
+            var cidx = Math.floor(Math.random() * 3);
+            pin.setAttribute("id", "img");
+            pin.setAttribute("class", "picture");
+            //pin.setAttribute("draggable", "true");
+            pin.setAttribute("src", pins[cidx] + ".png");
+            pin.setAttribute("width", "30px");
+            pin.style.left = String(parseInt(x.value) + 85) + "px";
+            pin.style.top = String(parseInt(y.value) - 10) + "px";
+            pin.style.zIndex = dep + 1;
+            var item = new img(String(pictures[idx.value - 1]) + ".png", y.value, x.value, dep, String(pins[cidx]) + ".png");
+            var myJSON = JSON.stringify(item);
+            console.log(myJSON);
+            localStorage.setItem("imgs" + dep, myJSON);
+            bag.push(image);
+            bag.push(pin);
+            document.body.appendChild(image);
+            document.body.appendChild(pin);
+            dep += 2;
+        }
+        function removeAll() {
+            dep = 2;
+            var length = localStorage.length; // number of key-value pairs
+            tags = []; // create empty array
+            var x = 0;
+            // load all keys
+            for (var i = 0; i < length; ++i) {
+                var tem = localStorage.key(i);
+                if (String(tem).startsWith("imgs")) {
+                    tags[x] = tem;
+                    x += 1;
+                }
+            }
+            tags.sort();
+            for (var tag in tags) {
+                localStorage.removeItem(tags[tag]);
+            }
+            for (var i = 0; i < bag.length; i++) {
+                document.body.removeChild(bag[i]);
+            }
+            while (bag.length) {
+                bag.pop();
+            }
+            window.alert("All items were removed!");
+        }
+        function start() {
+            var AddButton = document.getElementById("addButton");
+            AddButton.addEventListener("click", Addnew, false);
+            var clearButton = document.getElementById("removeAllButton");
+            clearButton.addEventListener("click", removeAll, false);
+            reloading();
+        } // end function start
+
+        window.addEventListener("load", start, false);
+    </script>
+</head>
+
+<body>
+    <img src="blackboard.jpg" height="600" width="800" style="float:left; z-index:0;" />
+    <img id="img-0" class="picture" style="top: 50px; left: 50px; z-index:1;" src="doraemon.png" />
+    <img id="pin-0" class="picture" style="top: 40px; left: 135px; z-index:1;" width="30px" src="red.png" />
+    <div id="nav" class="nav">
+        <form action="#">
+            <p>
+                <label>要放哪個道具圖片(請輸入編號):
+                    <input type="number" id="pic" min="1" max="10" step="1" value="1" />
+                </label>
+                <br />
+                <label>圖片X座標:
+                    <input type="number" id="x" min="40" max="600" step="1" value="40" />
+                </label>
+                <br />
+                <label>圖片Y座標:
+                    <input type="number" id="y" min="40" max="400" step="1" value="100" />
+                </label>
+            </p>
+            <p>
+                <input type="button" value="新增圖片" id="addButton">
+                <input type="button" value="移除所有圖片" id="removeAllButton">
+            </p>
+        </form>
+        <ul>
+            <li>[01]任意門</li>
+            <li>[02]時光機</li>
+            <li>[03]竹蜻蜓</li>
+            <li>[04]時光布</li>
+            <li>[05]記憶麵包</li>
+            <li>[06]縮小燈</li>
+            <li>[07]翻譯蒟蒻</li>
+            <li>[08]如果電話亭</li>
+            <li>[09]穿透環</li>
+            <li>[10]更衣照相機</li>
+        </ul>
+    </div>
+</body>
+
+</html>
