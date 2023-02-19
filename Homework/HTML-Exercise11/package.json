@@ -1,11 +1,11 @@
 {
-  "name": "01057107-exercise11",
+  "name": "HTML-exercise11",
   "version": "1.0.0",
   "description": "",
   "main": "chatAPI.js",
   "scripts": {
     "start": "node chatAPI.js"
   },
-  "author": "01057107",
+  "author": "DHugo",
   "license": "ISC"
 }

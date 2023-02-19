@@ -11,7 +11,7 @@ http.createServer(function (req, res) {
     let path = url.parse(req.url, true).pathname;
     console.log("Request:" + path);
     if (path == "/") {
-        fs.readFile('index.html', function (err, data) {
+        fs.readFile('Exercise11.html', function (err, data) {
             res.writeHead(200, { 'Content-Type': 'text/html' });
             res.write(data);
             return res.end();
