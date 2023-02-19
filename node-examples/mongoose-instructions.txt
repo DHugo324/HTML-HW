@@ -1,0 +1,6 @@
+express testmongo
+cd testmongo
+npm install
+npm uninstall jade
+npm audit
+npm install mongoose

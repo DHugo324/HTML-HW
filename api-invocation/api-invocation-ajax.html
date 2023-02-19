@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <fieldset>
+        <legend>Weather Viewer</legend>
+        <form action="#">
+            <select id="city">
+                <option>Keelung</option>
+                <option>Taipei</option>
+                <option>Kaohsiung</option>
+                <option>New York</option>
+                <option>Los Angels</option>
+            </select>
+            <input type="button" value="Show Weather" id="showBtn" />
+        </form>
+        <div id="message">
+            <h3>The weather of the selected city will be shown here.</h3>
+        </div>
+    </fieldset>
+    
+    <script>
+        // Backend API: https://github.com/robertoduessmann/weather-api
+
+        document.getElementById("showBtn").addEventListener("click", showWeather, false);
+
+        function showWeather() {
+            let city = document.getElementById("city").value;
+            let url = "https://pleasant-jay-cowboy-hat.cyclic.app/weather/" + city;
+
+            const xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    display(city, JSON.parse(this.responseText).temperature);
+                }
+            };
+            xhttp.open("GET", url, true);
+            xhttp.send();
+        }
+
+        function display(city, temperature) {
+            document.getElementById("message").innerHTML = "<h3>" + city + "'s weather today is " + temperature + ".";
+        }
+    </script>
+</body>
+
+<html>
